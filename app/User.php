@@ -29,7 +29,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    //add relationship User.php and Role.php
     public function role() {
         return $this->belongsTo('App\Role');
+    }
+
+    //add relationship Users.php and Photo.php
+    public function photo() {
+        return $this->belongsTo('App\Photo');
+
     }
 }
