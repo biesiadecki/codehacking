@@ -10,6 +10,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
 use App\Http\Requests\UserEditRequest;
+use Illuminate\Support\Facades\Session;
 
 
 class AdminUsersController extends Controller
@@ -154,5 +155,20 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         //
+        $user = User::findOrFail($id);
+
+        unlink(public_path() . $user->photo->file);
+
+        //$user = User::findOrFail($id)->delete(); 
+        
+        //a number of ways to gain access to session data
+        //$request->session //required request injection in function parameter
+        //session()  //global function
+
+        Session::flash('deleted_user', $user->name . ' user has been deleted');
+        $user->delete();
+
+        return redirect('/admin/users');
+
     }
 }
